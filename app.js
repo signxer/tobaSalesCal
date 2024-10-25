@@ -117,10 +117,8 @@ function calculateDistribution() {
             for (let level = customerLevels - 1; level >= 0 && remainingStock > 0; level--) {
                 const levelCustomers = customers[level];
                 if (levelCustomers > 0) {
-                    const allocationPerCustomer = Math.min(levelCustomers, remainingStock); // 每个客户的分配量
-                    allocations[level] = Math.floor(allocationPerCustomer); // 分配给当前级别的客户
+                    allocations[level] = levelCustomers; // 分配给当前级别的客户
                     remainingStock -= allocations[level]; // 更新剩余库存
-                    console.log(remainingStock, levelCustomers)
                 }
             }
         }
