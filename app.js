@@ -82,13 +82,9 @@ function calculateDistribution() {
                 for (let level = customerLevels - 1; level >= 0 && remainingStock > 0; level--) {
                     const levelCustomers = customers[level];
                     if (level == customerLevels - 1 && stock >= (totalCustomers * 1.5)) {
-                        console.log(level,"AAA")
                         const lv30Number = allocations[customerLevels - 1] / customers[customerLevels - 1];
-                        console.log(lv30Number,"lv30Number")
                         const lv1Number = allocations[0] / customers[0];
-                        console.log(lv1Number,"lv1Number")
                         const needAddFive = (customers[customerLevels - 1] * (lv1Number * ratio - lv30Number));
-                        console.log(needAddFive,"needAddFive")
                         if (lv30Number / lv1Number < ratio && remainingStock >= needAddFive) {
                             remainingStock -= needAddFive;
                             allocations[customerLevels - 1] += needAddFive;
@@ -119,6 +115,16 @@ function calculateDistribution() {
                 if (levelCustomers > 0 && remainingStock >= levelCustomers) {
                     allocations[level] = levelCustomers; // 分配给当前级别的客户
                     remainingStock -= allocations[level]; // 更新剩余库存
+                }
+            }
+            //榨干库存
+            for (let level = customerLevels - 1; level >= 0 && remainingStock > 0; level--) {
+                const levelCustomers = customers[level];
+                if (levelCustomers > 0 && remainingStock >= levelCustomers) {
+                    if(level == customerLevels - 1 || ( allocations[level + 1] / customers[level + 1] > allocations[level] / customers[level] )){
+                        allocations[level] = levelCustomers; // 分配给当前级别的客户
+                        remainingStock -= allocations[level]; // 更新剩余库存
+                    }
                 }
             }
         }
