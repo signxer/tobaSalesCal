@@ -116,7 +116,7 @@ function calculateDistribution() {
             // 库存不足时，优先高等级分配
             for (let level = customerLevels - 1; level >= 0 && remainingStock > 0; level--) {
                 const levelCustomers = customers[level];
-                if (levelCustomers > 0) {
+                if (levelCustomers > 0 && remainingStock >= levelCustomers) {
                     allocations[level] = levelCustomers; // 分配给当前级别的客户
                     remainingStock -= allocations[level]; // 更新剩余库存
                 }
